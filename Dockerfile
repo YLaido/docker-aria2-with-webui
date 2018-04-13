@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:latest
 
 LABEL maintainer "Dean Camera <http://www.fourwalledcubicle.com>"
 
