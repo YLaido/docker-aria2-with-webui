@@ -3,21 +3,21 @@ set -e
 
 PUID=${PUID:=1000}
 PGID=${PGID:=1000}
+conf=/data/aria2
 
-if [ ! -f /conf/aria2.conf ]; then
-	cp /conf-copy/aria2.conf /conf/aria2.conf
-	chown $PUID:$PGID /conf/aria2.conf
+if [ ! -f $conf/aria2.conf ]; then
+	cp /conf-copy/aria2.conf $conf/aria2.conf
+	chown $PUID:$PGID $conf/aria2.conf
 	if [ $SECRET ]; then
-		echo "rpc-secret=${SECRET}" >> /conf/aria2.conf
+		echo "rpc-secret=${SECRET}" >> $conf/aria2.conf
 	fi
+	touch $conf/aria2.session
+	chown $PUID:$PGID $conf/aria2.session
+	touch $conf/logs.txt
+	chown $PUID:$PGID $conf/logs.txt
 fi
 
-touch /conf/aria2.session
-chown $PUID:$PGID /conf/aria2.session
+darkhttpd /aria2-webui/docs --port 80 --daemon
+darkhttpd /data --port 4 --daemon
 
-touch /logs.txt
-chown $PUID:$PGID /logs.txt
-
-darkhttpd /aria2-webui/docs --port 80 &
-
-exec s6-setuidgid $PUID:$PGID aria2c --conf-path=/conf/aria2.conf --log=/logs.txt
+exec s6-setuidgid $PUID:$PGID aria2c --conf-path=$conf/aria2.conf --log=$conf/logs.txt
