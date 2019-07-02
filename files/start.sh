@@ -6,6 +6,7 @@ PGID=${PGID:=1000}
 conf=/data/aria2
 
 if [ ! -f $conf/aria2.conf ]; then
+	mkdir -pv $conf
 	cp /conf-copy/aria2.conf $conf/aria2.conf
 	chown $PUID:$PGID $conf/aria2.conf
 	if [ $SECRET ]; then

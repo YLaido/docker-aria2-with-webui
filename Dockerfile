@@ -7,7 +7,8 @@ RUN mkdir -p /data \
 	&& mkdir -p /conf-copy \
 	&& apk add --no-cache tzdata bash aria2 darkhttpd s6 git \
 	&& git clone --depth 1 https://github.com/ziahamza/webui-aria2 /aria2-webui \
-	&& apk del git
+	&& apk del --purge git \
+	&& rm -rf /var/cache/apk/*
 
 WORKDIR /conf-copy
 
