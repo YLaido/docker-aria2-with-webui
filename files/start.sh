@@ -14,6 +14,7 @@ if [ ! -f $conf/aria2.conf ]; then
 	fi
 	touch $conf/aria2.session
 	chown $PUID:$PGID $conf/aria2.session
+	chmod 755 $conf/aria2.session
 	touch $conf/logs.txt
 	chown $PUID:$PGID $conf/logs.txt
 fi

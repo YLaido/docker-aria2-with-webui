@@ -1,20 +1,16 @@
 FROM alpine:latest
 
-LABEL maintainer "Dean Camera <http://www.fourwalledcubicle.com>"
+LABEL maintainer "LJason <https://ljason.cn>"
 
-RUN mkdir -p /data \
-	&& mkdir -p /data/conf \
-	&& mkdir -p /conf-copy \
-	&& apk add --no-cache tzdata bash aria2 darkhttpd s6 git \
+RUN echo Asia/Chongqing > /etc/timezone \
+	&& apk add -qq --no-cache --no-progress --force-refresh tzdata bash aria2 darkhttpd s6 git \
 	&& git clone --depth 1 https://github.com/ziahamza/webui-aria2 /aria2-webui \
-	&& apk del --purge git \
+	&& apk del -qq --purge git \
 	&& rm -rf /var/cache/apk/*
 
 WORKDIR /conf-copy
 
 COPY files .
-
-RUN chmod +x ./start.sh
 
 VOLUME ["/data"]
 
