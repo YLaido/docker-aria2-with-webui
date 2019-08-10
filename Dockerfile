@@ -18,6 +18,6 @@ RUN chmod +x ./start.sh
 
 VOLUME ["/data"]
 
-EXPOSE 80 6800 4
+EXPOSE 81 6800 4
 
 CMD ["/conf-copy/start.sh"]

@@ -18,7 +18,7 @@ if [ ! -f $conf/aria2.conf ]; then
 	chown $PUID:$PGID $conf/logs.txt
 fi
 
-darkhttpd /aria2-webui/docs --port 80 --daemon
+darkhttpd /aria2-webui/docs --port 81 --daemon
 darkhttpd /data --port 4 --daemon
 
 exec s6-setuidgid $PUID:$PGID aria2c --conf-path=$conf/aria2.conf --log=$conf/logs.txt
