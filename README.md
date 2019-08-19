@@ -1,89 +1,31 @@
-Aria2, with integrated Aria2-WebUI and Aria2-NG Frontends
+Aria2，集成 Aria2-WebUI
 ---
 
-This is my fork of `XUJINKAI/aria2-with-webui`'s docker container, which is
-excellent, but didn't fix my exact use case. For some reason it's quite hard to
-find an somewhat up-to-date Aria2 build, let alone Aria2-WebUI or NG front-ends.
+Fork 自 `abcminiuser/docker-aria2-with-webui`。
 
-This container uses the latest Alpine linux build, along with the latest stable
-Aria2 client (from Alpine's package repository) and bleeding-edge Aria2-WebUI or
-latest release Aria2-NG front-end. In practice both are quite stable, so the
-chances of a broken WebUI is minimal.
+使用最新的 Alpine 版本，以及最新的稳定 Aria2 客户端（来自 Alpine 的软件包存储库）和最新的 Aria2-WebUI。
 
-Builds for this container are triggered by `Alpine` container updates, so it
-should remain up-to-date as newer Alpine/Aria2 versions become available.
+## 安装 ##
 
-## Tags:
-
-`latest`: Same as `latest-webui`.
-
-`latest-webui`: Latest Aria2 with the [Aria2-WebUI](https://github.com/timonier/webui-aria2) frontend
-
-`latest-ng`: Latest Aria2 with the [Aria2-NG](https://github.com/mayswind/AriaNg) frontend
-
-## Configuration:
-
-The container supports being run both with a custom configuration, or without.
-If you don't want to customize anything, use:
-
-```
-sudo docker run -d \
---name aria2-with-webui \
--p 6800:6800 \
--p 6880:80 \
--v /DOWNLOAD_DIR:/data \
--e SECRET=YOUR_SECRET_CODE \
--e PGID=100 \
--e PUID=1001 \
-abcminiuser/docker-aria2-with-webui
+```bash
+# 方法一，自行编译
+git clone https://github.com/LJason77/docker-aria2-with-webui.git
+cd docker-aria2-with-webui
+docker build -t aria2 .
+# 方法二
+docker pull ljason/docker-aria2-with-webui
 ```
 
-Which will make the Aria2 client accessible over HTTP from port 6800, with the
-WebUI being accessible from 6880. If you define `SECRET`, this token can be used
-to communicate with the Aria2 daemon from a remote machine (if not set, the
-WebUI should still work).
+## 运行 ##
 
-If you wish to use a custom configuration, map in a `/config` volume with your
-custom `aria2.conf` configuration:
-
-```
-sudo docker run -d \
---name aria2-with-webui \
--p 6800:6800 \
--p 6880:80 \
--v /DOWNLOAD_DIR:/data \
--v /CONFIG_DIR:/conf \
--e PGID=100 \
--e PUID=1001 \
-abcminiuser/docker-aria2-with-webui
+```bash
+# 方法一安装
+docker run -d --name aria2 --network host -v /DOWNLOAD_DIR:/data -e SECRET=YOUR_SECRET_CODE aria2
+# 方法二安装
+docker run -d --name aria2 --network host -v /DOWNLOAD_DIR:/data -e SECRET=YOUR_SECRET_CODE ljason/docker-aria2-with-webui
 ```
 
-Note that no authentication is used on the WebUI - if you need this, use a NGINX
-reverse proxy to handle the authentication.
-
-For an explanation of `PGID` and `PUID`, see the `User / Group Identifiers`
-section below.
-
-## Docker Compose
-
-Example compose configuration:
-
-```
-  aria2:
-    container_name: Aria2
-    image: abcminiuser/docker-aria2-with-webui:latest
-    network_mode: "bridge"
-    ports:
-      - 6800:6800
-      - 6880:80
-    volumes:
-      - /volume1/Download/complete:/data
-      - /volume1/docker/Aria2:/conf
-    environment:
-      - PGID=100
-      - PUID=1001
-    restart: unless-stopped
-```
+WebUI 可从 81 端口访问。4 端口可直接下载文件，可在 `连接设置` 里面设置 `直接下载` 地址：http://ip:4/ 。
 
 ## User / Group Identifiers
 
