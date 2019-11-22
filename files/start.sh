@@ -7,16 +7,12 @@ conf=/data/aria2
 
 if [ ! -f $conf/aria2.conf ]; then
 	mkdir -pv $conf
-	cp /conf-copy/aria2.conf $conf/aria2.conf
-	chown $PUID:$PGID $conf/aria2.conf
+	mv /aria2.conf $conf/aria2.conf
 	if [ $SECRET ]; then
 		echo "rpc-secret=${SECRET}" >> $conf/aria2.conf
 	fi
-	touch $conf/aria2.session
-	chown $PUID:$PGID $conf/aria2.session
-	chmod 755 $conf/aria2.session
-	touch $conf/logs.txt
-	chown $PUID:$PGID $conf/logs.txt
+	touch $conf/aria2.session $conf/logs.txt
+	chown -R $PUID:$PGID $conf
 fi
 
 darkhttpd /webui-aria2-master/docs --port 81 --daemon
