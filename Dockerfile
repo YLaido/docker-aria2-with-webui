@@ -13,6 +13,6 @@ COPY files .
 
 VOLUME ["/data"]
 
-EXPOSE 81 6800 4
+EXPOSE 7889 6801 4
 
 CMD ["/start.sh"]
