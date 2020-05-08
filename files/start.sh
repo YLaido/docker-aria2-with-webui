@@ -3,7 +3,7 @@ set -e
 
 PUID=${PUID:=1000}
 PGID=${PGID:=1000}
-conf=/root/conf
+conf=/conf
 
 if [ ! -f $conf/aria2.conf ]; then
 	echo "aria2 config not found!"
