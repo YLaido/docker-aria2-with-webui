@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-LABEL maintainer "LJason <https://ljason.cn>"
+LABEL maintainer "YLaido"
 
 ENV TZ=Asia/Shanghai
 
