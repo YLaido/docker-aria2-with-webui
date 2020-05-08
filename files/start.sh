@@ -6,8 +6,8 @@ PGID=${PGID:=1000}
 conf=/root/conf
 
 if [ ! -f $conf/aria2.conf ]; then
-	mkdir -pv $conf
-	mv /aria2.conf $conf/aria2.conf
+	echo "aria2 config not found!"
+	exit 0
 	if [ $SECRET ]; then
 		echo "rpc-secret=${SECRET}" >> $conf/aria2.conf
 	fi
